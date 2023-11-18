@@ -60,7 +60,7 @@ If you want to know the math behind a mecanum drive: https://seamonsters-2605.gi
  */
 
 
-@TeleOp(name="Basic: Linear OpMode") //, group="Linear Opmode"
+@TeleOp(name="MecanumDrive") //, group="Linear Opmode"
 @Disabled
 public class MecanumDrive extends LinearOpMode {
 
@@ -107,7 +107,7 @@ public class MecanumDrive extends LinearOpMode {
         flbrPower = flbrPower * magnitude * speedMultiplier + turn;
         frblPower = frblPower * magnitude * speedMultiplier + turn;
 
-        //Scaling (Motor powers can't exceed 1, so this checks to see if any power values are larger than 1 and scales all of the power values so that the highest power value is 1.
+        // Scaling (Motor powers can't exceed 1, so this checks to see if any power values are larger than 1 and scales all of the power values so that the highest power value is 1.
         if (Math.abs(flbrPower) > 1)
         {
             flbrPower /= Math.abs(flbrPower);
@@ -120,7 +120,8 @@ public class MecanumDrive extends LinearOpMode {
             frblPower /= Math.abs(frblPower);
         }
 
-        //Set powers to motors
+        // Set powers to motors
+        // While this looks inefficient, variables for all four powers are used in the case that individual tweaking needs to happen
         powerFL = flbrPower;
         powerFR = frblPower;
         powerBL = frblPower;

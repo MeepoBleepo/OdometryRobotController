@@ -35,34 +35,49 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="RobotMain") //, group="Linear Opmode"
+
+@TeleOp(name="ODOMETERING") //, group="Linear Opmode"
 @Disabled
-public class RobotMain extends LinearOpMode {
+public class ODOMETERING extends LinearOpMode {
 
     // Declare OpMode members.
-    private final ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor motorFL = null;
-    private DcMotor motorFR = null;
-    private DcMotor motorBL = null;
-    private DcMotor motorBR = null;
+    //Motors
+    private DcMotor deadwheelRobotX = null;
+    private DcMotor deadwheelRobotY = null;
+    private DcMotor deadwheelRobotR = null;
+
+
+    private double posX = 0; // Horizontal value of the robot on the field
+    private double posY = 0; // Vertical value of the robot on the field
+    private double locX = 0; // Horizontal value of the robot relative to its current rotation and location
+    private double locY = 0; // Vertical value of the robot relative to its current rotation and location
+    private double robotAngle = 0; // Degrees, rotation of the robot on the field. Robot always starts at 0
+    private double locRobotAngle = 0; // Degrees, rotation of the robot relative to its starting rotation
+
+    //Ratios
+    private double DISTANCE_TO_ROTATION_WHEEL = 0; // CHANGE THIS VARIABLE - measure the distance from your robot's CENTER OF ROTATION to the center of the rotational dead wheel. Be as accurate as possible. Like seriously. If this measurement is inaccurate then your odometry will also be inaccurate
+    private double TICKS_PER_ROTATION = 0;
+    private double WHEEL_CIRCUMFERENCE = 0;
+
+
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
         // put initialization code here
-        motorFL = hardwareMap.get(DcMotor.class,"motorFL");
-        motorFR = hardwareMap.get(DcMotor.class,"motorFR");
-        motorBL = hardwareMap.get(DcMotor.class,"motorBL");
-        motorBR = hardwareMap.get(DcMotor.class,"motorBR");
 
-        MecanumDrive drive = new MecanumDrive(motorFL, motorFR, motorBL, motorBR);
+        deadwheelRobotX = hardwareMap.get(DcMotor.class, "deadwheelRobotX");
+        deadwheelRobotY = hardwareMap.get(DcMotor.class, "deadwheelRobotY");
+        deadwheelRobotR = hardwareMap.get(DcMotor.class,"deadwheelRobotR");
 
         while (opModeIsActive()) {
-            // run until the end of the match (driver presses STOP) hi aaren
-            drive.run(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, 1);
+            // run until the end of the match (driver presses STOP)
+
+
+
 
             telemetry.update();
         }

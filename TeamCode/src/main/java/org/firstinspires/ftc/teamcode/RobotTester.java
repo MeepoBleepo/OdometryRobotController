@@ -32,37 +32,45 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="RobotMain") //, group="Linear Opmode"
+
+@TeleOp(name="RobotTester") //, group="Linear Opmode"
 @Disabled
-public class RobotMain extends LinearOpMode {
+public class RobotTester extends LinearOpMode {
 
     // Declare OpMode members.
-    private final ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor motorFL = null;
-    private DcMotor motorFR = null;
-    private DcMotor motorBL = null;
-    private DcMotor motorBR = null;
+    private DcMotor motor1 = null;
+    private DcMotor motor2 = null;
+
+    private Servo servo1 = null;
+
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
         // put initialization code here
-        motorFL = hardwareMap.get(DcMotor.class,"motorFL");
-        motorFR = hardwareMap.get(DcMotor.class,"motorFR");
-        motorBL = hardwareMap.get(DcMotor.class,"motorBL");
-        motorBR = hardwareMap.get(DcMotor.class,"motorBR");
 
-        MecanumDrive drive = new MecanumDrive(motorFL, motorFR, motorBL, motorBR);
+        motor1 = hardwareMap.get(DcMotor.class, "motor1");
+        motor2 = hardwareMap.get(DcMotor.class, "motor2");
+
+        motor1.setDirection(DcMotor.Direction.FORWARD);
+        motor2.setDirection(DcMotor.Direction.REVERSE);
+
+        // Servo is not needed // servo1 = hardwareMap.get(Servo.class, "servo1");
+
 
         while (opModeIsActive()) {
-            // run until the end of the match (driver presses STOP) hi aaren
-            drive.run(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, 1);
+            // run until the end of the match (driver presses STOP)
+
+            motor1.setPower(gamepad1.right_stick_y);
+            motor2.setPower(gamepad1.right_stick_y);
 
             telemetry.update();
         }
